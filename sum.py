@@ -11,14 +11,17 @@ def summation(term, a, compute_next, b):
     else:
         return term(a) + summation(term, compute_next(a), compute_next, b)
 
+def identity(x):
+    return x
+    
+def increment(x):
+    x+=1
+    return x
+
+def cube(x):
+    return x * x * x
+
 def sum_a_to_b_integers(a, b):
-    def identity(x):
-        return x
-    
-    def increment(x):
-        x+=1
-        return x
-    
     return summation(identity, a, increment, b)
 
 def integral_by_simpsons_rule(f, a, b, n):
@@ -35,13 +38,8 @@ def integral_by_simpsons_rule(f, a, b, n):
             return 2 * f(a + (k*compute_h()))
         else:
             return 4 * f(a + (k*compute_h()))
-    def increment(k):
-        k+=1
-        return k
     return (compute_h()/3) * summation(compute_y_sub_k, 0, increment, n)
 
-def cube(x):
-    return x * x * x
 
 def sum_iter(term, a, compute_next, b):
     def iteration(a, result):
@@ -51,16 +49,7 @@ def sum_iter(term, a, compute_next, b):
             return iteration(compute_next(a), result + term(a))
     return iteration(a, 0)
 
-def identity(x):
-    return x
-def increment(x):
-    x+=1
-    return x 
-
 z = sum_iter(identity, 1, increment, 10)
 print(z)
-
-        
-
         
         
