@@ -21,6 +21,35 @@ def increment(x):
 def cube(x):
     return x * x * x
 
+# An abstraction of procedures for computing sums or products
+def accumulate_linear_recursion(combiner, null_value, term, a, compute_next, b):
+    if a > b:
+        return null_value
+    else:
+        return combiner(term(a), 
+                        accumulate_linear_recursion(combiner, 
+                                   null_value, 
+                                   term, 
+                                   compute_next(a), 
+                                   compute_next, 
+                                   b
+                        )
+                )
+
+def accumulate_iterative_recursion(combiner, null_value, term, a, compute_next, b):
+    def accumulate_iter(a, result):
+        if a > b:
+            return result
+        else:
+            return accumulate_iter(compute_next(a), combiner(a, result))
+    return accumulate_iter(a, null_value)
+
+
+def sum_with_accumulate(term, a, compute_next, b):
+    def sum_values(x,y):
+        return x + y
+    return accumulate_linear_recursion(sum_values, 0, identity, a, increment, b)
+
 def sum_a_to_b_integers(a, b):
     return summation(identity, a, increment, b)
 
@@ -48,8 +77,3 @@ def sum_iter(term, a, compute_next, b):
         else: 
             return iteration(compute_next(a), result + term(a))
     return iteration(a, 0)
-
-z = sum_iter(identity, 1, increment, 10)
-print(z)
-        
-        
